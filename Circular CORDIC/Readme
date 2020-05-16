@@ -1,1 +1,7 @@
 Circular CORDIC notes will be attached soon
+
+Hierarchy:
+CORDIC --> Shift add
+       --> delta I gen
+       (which are the main components - delta determines Add/Sub in Conditional adder subtractor of shift_add)
+       --> register : is a loadable register using a 2:1 MUX to load
