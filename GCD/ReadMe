@@ -1,0 +1,14 @@
+GCD algorith used:
+GCD(M,N) = 
+  if M,N even      -   2*GCD(M, N)
+  if M even, N odd -  GCD(M/2, N)
+  if M odd, N even -  GCD(M, N/2)
+  if M,N odd       - GCD( (min(M,N), mod|M-N| )
+  
+M, N are inputs
+M_, N_ are the registers used inside the design
+M_[0], N_[0] is used to check of M,N are even/odd
+number of 2's is counter by register R
+
+Terminal count (TC) = M==N or M==1 or N==1
+result GCD = M_ << R
