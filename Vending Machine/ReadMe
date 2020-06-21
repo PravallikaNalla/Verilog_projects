@@ -1,0 +1,62 @@
+Vending machine which disposes 3 cans, each of cost:
+C1 : 5
+C2 : 10
+C3 : 15
+Vending machine only accepts the coins 5 and 10. anything else will be ejected out
+
+once your coins are instered, push the button "choose" to let you insert the can number "can_choice" {1,2,3}
+based the amount in the coin collector,
+if can cost == amount inserted, can_out = 1 (desired can is dispensed)
+if not, the coins are ejected out and the Vending machine is ready to start over and collect coins
+
+After hitting the button "choose" any coins further inserted will not be accepted.
+
+This design has 2 state machines,
+1. coin collector (states: 0, 5, 10, 15)
+2. Vending Machine (states: READY, CHOOSE)
+assigned 0,1,2,3 in the order stated above
+
+----------------------------------------------------------------------------------------------
+RESULTS - with a look into the states of coin collector(state) and the Vending Machine state(VMstate)
+---------------------------------------------------------------------------------------------------
+time                    0- coin_in:0 can_choice:0 choose:0 RST:1 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+time                   80- coin_in:0 can_choice:0 choose:0 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  100- coin_in:1 can_choice:0 choose:0 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  120- coin_in:0 can_choice:1 choose:1 RST:0 -- VM_state:1 state:1-- can_out:1 eject:0 | eject 0,VMej 0 
+time                  140- coin_in:0 can_choice:1 choose:1 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+now can 2
+time                  160- coin_in:2 can_choice:1 choose:0 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  180- coin_in:0 can_choice:1 choose:1 RST:0 -- VM_state:1 state:2-- can_out:0 eject:1 | eject 0,VMej 1 
+time                  200- coin_in:0 can_choice:1 choose:1 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+now can 2 --
+time                  220- coin_in:2 can_choice:1 choose:0 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  240- coin_in:0 can_choice:1 choose:0 RST:0 -- VM_state:0 state:2-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  260- coin_in:0 can_choice:2 choose:1 RST:0 -- VM_state:1 state:2-- can_out:2 eject:0 | eject 0,VMej 0 
+time                  280- coin_in:0 can_choice:2 choose:1 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+now can 3
+time                  300- coin_in:1 can_choice:2 choose:0 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  320- coin_in:2 can_choice:2 choose:0 RST:0 -- VM_state:0 state:1-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  340- coin_in:0 can_choice:3 choose:1 RST:0 -- VM_state:1 state:3-- can_out:3 eject:0 | eject 0,VMej 0 
+time                  360- coin_in:0 can_choice:3 choose:1 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+now can 3
+time                  380- coin_in:2 can_choice:3 choose:0 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  400- coin_in:1 can_choice:3 choose:0 RST:0 -- VM_state:0 state:2-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  420- coin_in:0 can_choice:2 choose:1 RST:0 -- VM_state:1 state:3-- can_out:0 eject:1 | eject 0,VMej 1 
+time                  440- coin_in:0 can_choice:2 choose:1 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+testing eject for excess coins
+time                  460- coin_in:2 can_choice:2 choose:0 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  480- coin_in:2 can_choice:2 choose:0 RST:0 -- VM_state:0 state:2-- can_out:0 eject:1 | eject 1,VMej 0 
+time                  500- coin_in:2 can_choice:2 choose:0 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  520- coin_in:1 can_choice:2 choose:0 RST:0 -- VM_state:0 state:2-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  540- coin_in:2 can_choice:2 choose:0 RST:0 -- VM_state:0 state:3-- can_out:0 eject:1 | eject 1,VMej 0 
+time                  560- coin_in:1 can_choice:2 choose:0 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  580- coin_in:0 can_choice:2 choose:0 RST:0 -- VM_state:0 state:1-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  600- coin_in:1 can_choice:2 choose:0 RST:0 -- VM_state:0 state:1-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  620- coin_in:1 can_choice:2 choose:0 RST:0 -- VM_state:0 state:2-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  640- coin_in:2 can_choice:2 choose:0 RST:0 -- VM_state:0 state:3-- can_out:0 eject:1 | eject 1,VMej 0 
+now can 3
+time                  660- coin_in:1 can_choice:2 choose:0 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  680- coin_in:1 can_choice:2 choose:0 RST:0 -- VM_state:0 state:1-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  700- coin_in:1 can_choice:2 choose:0 RST:0 -- VM_state:0 state:2-- can_out:0 eject:0 | eject 0,VMej 0 
+time                  720- coin_in:0 can_choice:3 choose:1 RST:0 -- VM_state:1 state:3-- can_out:3 eject:0 | eject 0,VMej 0 
+time                  740- coin_in:0 can_choice:3 choose:1 RST:0 -- VM_state:0 state:0-- can_out:0 eject:0 | eject 0,VMej 0 
